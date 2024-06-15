@@ -21,11 +21,12 @@ jobs:
         with:
           node-version: '14'
     
-      - name: Move into correct directory
-        run: cd ./code/server
-
       - name: Install dependencies
-        run: npm install
+        run: |
+            cd code/server/
+            npm install
 
-      - name: Run Jest tests
-        run: npm run test
+      - name: Test and coverage (unit)
+        run: |
+            cd code/server/ 
+            npm run test
