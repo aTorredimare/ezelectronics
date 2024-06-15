@@ -29,4 +29,12 @@ jobs:
       - name: Test and coverage (unit)
         run: |
             cd code/server/ 
+            npm run test_unit
+      - name: Test and coverage (integration)
+        run: |
+            cd code/server/ 
+            npm run test_integration
+      - name: Test and coverage (all)
+        run: |
+            cd code/server/ 
             npm run test
