@@ -68,10 +68,6 @@ describe("addReview (controller)", () => {
             comment: "test"
         };
 
-        //const spy1 = jest.spyOn(ReviewDAO.prototype, "isProductExist").mockResolvedValue(true);
-        //const spy2 = jest.spyOn(ReviewDAO.prototype, "isProductReviewed").mockResolvedValue("1");
-        //const spyAdd = jest.spyOn(ReviewDAO.prototype, "addReview").mockResolvedValue(true);
-
         await expect(controller.addReview(testReview.model, testUser, testReview.score, testReview.comment))
         .rejects.toThrow(ExistingReviewError);
 
@@ -79,24 +75,14 @@ describe("addReview (controller)", () => {
         expect(mockedDAO.isProductExist).toHaveBeenCalledWith(testReview.model);
         expect(mockedDAO.isProductReviewed).toHaveBeenCalledTimes(1);
         expect(mockedDAO.isProductReviewed).toHaveBeenCalledWith(testReview.model, testUser.username);
-        /*
-        expect(spy1).toHaveBeenCalledTimes(1);
-        expect(spy1).toHaveBeenCalledWith(testReview.model);
-        expect(spy2).toHaveBeenCalledTimes(1);
-        expect(spy2).toHaveBeenCalledWith(testReview.model, testUser.username);
-
-        expect(spyAdd).toHaveBeenCalledTimes(0);
-        */
     })
 
     test("aggiunge una review, restituisce errore (Product Not Found)", async () => {
 
-        // Crea un mock del DAO
         const mockedDAO = new ReviewDAO() as jest.Mocked<ReviewDAO>;
         mockedDAO.isProductExist.mockResolvedValue(false);
         mockedDAO.isProductReviewed.mockResolvedValue(1);
 
-        // Crea un'istanza del controller utilizzando il mock del DAO
         controller['dao'] = mockedDAO;
 
         const testReview = {
@@ -117,7 +103,7 @@ describe("addReview (controller)", () => {
 describe("getProductReviews (controller)", () => {
     const testModel = "test";
 
-    test("restituisce un vettore di review di un dato prodotto", async () => {
+    test("restituisce un vettore di reviews di un dato prodotto", async () => {
     
         const mockRow = [{
              model: "test",
@@ -183,7 +169,6 @@ describe("deleteReview (controller)", () => {
         mockedDAO.isProductExist.mockResolvedValue(true);
         mockedDAO.isProductReviewed.mockResolvedValue(1);
 
-        // Crea un'istanza del controller utilizzando il mock del DAO
         controller['dao'] = mockedDAO;
 
         const model = "test";
@@ -199,14 +184,12 @@ describe("deleteReview (controller)", () => {
         //NOTA: NON PUOI USARE METODI TIPO toHaveBeenCalledTimes ecc. su response, perchè response non è una mock o una spy!
     })
     
-    test("elimina una review, restituisce errore (NoReviewProduct)", async () => {
+    test("prova a eliminare una review, restituisce errore (NoReviewProduct)", async () => {
 
-        // Crea un mock del DAO
         const mockedDAO = new ReviewDAO() as jest.Mocked<ReviewDAO>;
         mockedDAO.isProductExist.mockResolvedValue(true);
         mockedDAO.isProductReviewed.mockResolvedValue(null);
 
-        // Crea un'istanza del controller utilizzando il mock del DAO
         controller['dao'] = mockedDAO;
 
         const model= "test";
@@ -220,7 +203,7 @@ describe("deleteReview (controller)", () => {
         expect(mockedDAO.isProductReviewed).toHaveBeenCalledWith(model, testUser.username);
     })
 
-    test("elimina una review, restituisce errore (ProductNotFound)", async () => {
+    test("prova a eliminare una review, restituisce errore (ProductNotFound)", async () => {
 
         // Crea un mock del DAO
         const mockedDAO = new ReviewDAO() as jest.Mocked<ReviewDAO>;
@@ -257,7 +240,7 @@ describe("deleteReviewsOfProduct (controller)", () => {
         expect(response).toBeUndefined();
     });
 
-    test("elimina tutte le review per un prodotto, restituisce errore (ProductNotFound)", async () => {
+    test("prova a eliminare le reviews, restituisce errore (ProductNotFound)", async () => {
         const mockedDAO = new ReviewDAO() as jest.Mocked<ReviewDAO>;
         mockedDAO.isProductExist.mockResolvedValue(false);
         controller['dao'] = mockedDAO;
@@ -275,7 +258,7 @@ describe("deleteReviewsOfProduct (controller)", () => {
 
 describe("deleteAllReviews (controller)", () => {
 
-    test("elimina tutte le review presenti nel database, ritorna void", async() => {
+    test("elimina tutte le reviews presenti nel database", async() => {
 
         const dbRunMock = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
             callback(null);
@@ -291,7 +274,7 @@ describe("deleteAllReviews (controller)", () => {
         expect.any(Function));
     });
 
-    test("elimina tutte le review presenti nel database, ritorna void", async() => {
+    test("errore nel database", async() => {
 
         const mockError = new Error("Database error");
 
@@ -309,7 +292,7 @@ describe("deleteAllReviews (controller)", () => {
         expect.any(Function));
     });
 
-    test("elimina tutte le review presenti nel database, ritorna void", async() => {
+    test("gestione eccezione nel blocco try", async() => {
 
         const mockError = new Error("Unexpected error");
 

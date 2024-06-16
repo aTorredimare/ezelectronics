@@ -36,7 +36,7 @@ describe('UserDAO unit tests', () => {
             mockScrypt.mockRestore()
         });
 
-        test("T2 - nuovo user con stesso username ritorna false", async () => {
+        test("T2 - nuovo user con stesso username lancia errore", async () => {
             const userDAO = new UserDAO();
             const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
                 const err = new UserAlreadyExistsError();
@@ -96,7 +96,7 @@ describe('UserDAO unit tests', () => {
             mockDBGet.mockRestore();
         });
 
-        test("T2 - user con username non esiste", async () => {
+        test("T2 - user con username non esiste lancia errore", async () => {
             const userDAO = new UserDAO();
             const mockDBGet = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
                 callback(null, undefined)
@@ -164,14 +164,14 @@ describe('UserDAO unit tests', () => {
     });
 
     describe("deleteAllUsers", () => {
-        test("T1 - elimina tutti gli user con role diverso da Manager", async () => {
+        test("T1 - elimina tutti gli user con role diverso da Admin", async () => {
             const userDAO = new UserDAO();
             const mockDBRun = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
                 callback(null)
                 return {} as Database
             });
 
-            const result = await userDAO.deleteAllUsers(Role.MANAGER);
+            const result = await userDAO.deleteAllUsers(Role.ADMIN);
             expect(result).toBe(true);
 
             mockDBRun.mockRestore();

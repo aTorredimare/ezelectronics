@@ -657,7 +657,7 @@ describe('Carts integration test', () => {
         })
     });
 
-    describe('DELETE /carts/products/current', () => {
+    describe('DELETE /carts/current', () => {
 
         beforeEach(async () => {
             await productDAO.deleteAllProducts();

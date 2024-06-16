@@ -177,21 +177,7 @@ describe("DELETE /:model/all", () => {
         });
         spy.mockRestore();
     });
-/*
-    test("parametro model vuoto, restituisce status 422", async () => {
-        const testModel = " ";
 
-        //const spyDel = jest.spyOn(ReviewController.prototype, "deleteReview").mockResolvedValue();
-
-        jest.spyOn(Authenticator.prototype, "isAdminOrManager").mockImplementation((req, res, next) => {
-            req.user = "carlo";
-            return next();
-        });
-
-        const response = await request(app).delete(baseURL + "/" + testModel + "/all");
-        expect(response.status).toBe(422);
-    })
-        */
 });
 
 describe("DELETE /", () => {

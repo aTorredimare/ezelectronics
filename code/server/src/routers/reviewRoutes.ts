@@ -45,7 +45,6 @@ class ReviewRoutes {
                 const errors = validationResult(req);
                 if (!errors.isEmpty())
                     return res.status(422).json({ errors: errors.array() });
-                if (req.param.model === " ") return res.status(422).json({ error: "Parametro 'model' non specificato" });
                 this.controller.addReview(req.params.model, req.user, req.body.score, req.body.comment)
                     .then(() => res.status(200).send())
                     .catch((err: Error) => {
@@ -66,7 +65,6 @@ class ReviewRoutes {
                 this.authenticator.isLoggedIn(req, res, next)
             },
             (req: any, res: any, next: any) => {
-                if (req.param.model === " ") return res.status(422).json({ error: "Parametro 'model' non specificato" });
                 this.controller.getProductReviews(req.params.model)
                     .then((reviews: ProductReview[]) => res.status(200).json(reviews))
                     .catch((err: Error) => next(err))
@@ -85,7 +83,6 @@ class ReviewRoutes {
                 this.authenticator.isCustomer(req, res, next)
             },
             (req: any, res: any, next: any) => { //cancellato il validator (non serve (?))
-                if (req.param.model === " ") return res.status(422).json({ error: "Parametro 'model' non specificato" });
                 this.controller.deleteReview(req.params.model, req.user)
                     .then(() => res.status(200).send())
                     .catch((err: Error) => {
@@ -105,8 +102,7 @@ class ReviewRoutes {
             (req: any, res: any, next: any) => {
                 this.authenticator.isAdminOrManager(req, res, next)
             },
-            (req: any, res: any, next: any) => { //ho tolto i validator
-                if (req.param.model === " ") return res.status(422).json({ error: "Parametro 'model' non specificato" });
+            (req: any, res: any, next: any) => { 
                 this.controller.deleteReviewsOfProduct(req.params.model)
                     .then(() => res.status(200).send())
                     .catch((err: Error) => next(err))

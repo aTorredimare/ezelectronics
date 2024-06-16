@@ -17,12 +17,9 @@ const mockUser: User = { username: 'testuser', name: 'Test', surname: 'User', ro
 const baseURL = "/ezelectronics/carts"
 
 
-describe('GET /', () => {
+describe('GET /carts', () => {
     const mockCart =  {customer: 'testuser', paid: false,  paymentDate: '', total: 100, products: [{ model: 'product1', quantity: 2, category: Category.SMARTPHONE, price: 50 }] };
     beforeEach(() => {
-        jest.clearAllMocks();
-    });
-    test('It should return 200,the cart for the logged-in user', async () => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
             req.user = mockUser;
             next();
@@ -31,7 +28,11 @@ describe('GET /', () => {
         jest.spyOn(Authenticator.prototype, 'isCustomer').mockImplementation((req, res, next) => {
             next();
         });
-
+    });
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+    test('It should return 200,the cart for the logged-in user', async () => {
         jest.spyOn(CartController.prototype, 'getCart').mockResolvedValue(mockCart);
 
         const response = await request(app).get(baseURL);
@@ -42,9 +43,19 @@ describe('GET /', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.getCart).toHaveBeenCalledWith(mockUser);
     });
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'getCart').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).get(baseURL);
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('POST /', () => {
+describe('POST /carts', () => {
     const mockModel = 'product-model';
 
     beforeEach(() => {
@@ -97,9 +108,20 @@ describe('POST /', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.addToCart).toHaveBeenCalledWith(mockUser, mockModel);
     });
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'addToCart').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).post(baseURL).send({ model: mockModel });
+
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('PATCH /', () => {
+describe('PATCH /carts', () => {
 
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
@@ -169,9 +191,20 @@ describe('PATCH /', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.checkoutCart).toBeCalledWith(mockUser);
     });
+
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'checkoutCart').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).patch(baseURL);
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('GET /history', () => {
+describe('GET carts/history', () => {
 
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
@@ -204,9 +237,19 @@ describe('GET /history', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.getCustomerCarts).toBeCalledWith(mockUser);
     });
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'getCustomerCarts').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).get(baseURL+'/history');
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('DELETE /products/:model', () => {
+describe('DELETE carts/products/:model', () => {
 
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
@@ -246,7 +289,6 @@ describe('DELETE /products/:model', () => {
 
     });
 
-    /////?????????????? 400 O 404
     test('It should return 400, empty cart', async () => {
         
         jest.spyOn(CartController.prototype, 'removeProductFromCart').mockRejectedValue(new EmptyCartError);
@@ -277,9 +319,20 @@ describe('DELETE /products/:model', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.removeProductFromCart).toBeCalledWith(mockUser,testModel);
     });
+
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'removeProductFromCart').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).delete(`${baseURL}/products/${testModel}`);
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 })
 
-describe('DELETE /current', () => {
+describe('DELETE carts/current', () => {
 
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
@@ -315,9 +368,20 @@ describe('DELETE /current', () => {
         expect(Authenticator.prototype.isCustomer).toHaveBeenCalled();
         expect(CartController.prototype.clearCart).toBeCalledWith(mockUser);
     });
+
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'clearCart').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).delete(baseURL+'/current');
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('DELETE /', () => {
+describe('DELETE /carts', () => {
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
             next();
@@ -341,9 +405,20 @@ describe('DELETE /', () => {
         expect(CartController.prototype.deleteAllCarts).toBeCalled();
 
     });
+
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'deleteAllCarts').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).delete(baseURL);
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
-describe('GET /all', () => {
+describe('GET carts/all', () => {
     beforeEach(() => {
         jest.spyOn(Authenticator.prototype, 'isLoggedIn').mockImplementation((req, res, next) => {
             next();
@@ -371,6 +446,17 @@ describe('GET /all', () => {
         expect(Authenticator.prototype.isAdminOrManager).toHaveBeenCalled();
         expect(CartController.prototype.getAllCarts).toBeCalled();
     });
+
+    test('It should return 503, Internal server error', async () => {
+        jest.spyOn(CartController.prototype, 'getAllCarts').mockRejectedValue({
+            message: "Internal Server Error",
+            statusCode: 503
+        });
+        const response = await request(app).get(baseURL+'/all');
+        expect(response.status).toBe(503);
+        expect(response.body).toStrictEqual({"error": "Internal Server Error", "status": 503});
+
+    })
 });
 
 

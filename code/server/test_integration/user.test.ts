@@ -297,7 +297,7 @@ describe("Users integration tests", () => {
                 .expect(401);
         });
 
-        test("It should return 401 if the user is not an Admin and tries to retrieve another user data", async () => {
+        test("It should return 401 if the user is not an Admin and tries to retrieve another user's data", async () => {
             await request(app)
                 .get(`${baseURL}/users/peppe.rossi`)
                 .set("Cookie", cookieManager)

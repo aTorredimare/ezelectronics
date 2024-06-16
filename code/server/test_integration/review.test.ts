@@ -191,7 +191,7 @@ describe('ReviewRoutes integrated test', () => {
       expect(response.status).toBe(422);
     })
 
-    test("It should return a 404 error if model does not represent an existing product in the database", async () => {
+    test("Ritorna status 404 - il prodotto non esiste nel database", async () => {
       const testModel = "test";
       const inputReview = {
         score: 5,

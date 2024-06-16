@@ -19,7 +19,7 @@ describe("addReview (dao)", () => {
         const score = 5
         const comment = "test"
 
-    test("aggiunge una review a un prodotto, restituisce true se l'operazione va a buon fine", async () => {
+    test("aggiunge una review a un prodotto, restituisce true", async () => {
            
         const dbRunMock = jest.spyOn(db, "run").mockImplementation((sql, params, callback) => {
             callback(null);
@@ -35,7 +35,7 @@ describe("addReview (dao)", () => {
         expect.any(Function));
     });
 
-    test("database error", async () => {
+    test("errore nel database", async () => {
         
         const mockError = new Error('DB test error');
 
@@ -145,12 +145,12 @@ describe("isProductExist (dao)", () => {
     });
 })
 
-describe("isProductReviewed", () => {
+describe("isProductReviewed (dao)", () => {
 
     const testModel = "test";
     const testUser = "test";
 
-    test("se un prodotto non ha già una review, ritorna null", async () => {
+    test("il prodotto non ha già una review, ritorna null", async () => {
 
         const dbGetMock = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
             callback(null, null);
@@ -166,7 +166,7 @@ describe("isProductReviewed", () => {
         expect.any(Function));
     });
 
-    test("se un prodotto ha già una review, ritorna l'id della review (integer)", async () => {
+    test("il prodotto ha già una review, ritorna l'id della review", async () => {
         const mockRow = { id: 1, model: 'test', user: 'test', score: 5, review_date: '2024-05-08', comment: "cool"};
 
         const dbGetMock = jest.spyOn(db, "get").mockImplementation((sql, params, callback) => {
@@ -219,7 +219,7 @@ describe("isProductReviewed", () => {
     });
 });
 
-describe("deleteReview", () => {
+describe("deleteReview (dao)", () => {
     //NOTA: NON TESTO IL CASO IN CUI NON CI SIA "MATCH" NEL DB perchè se ci viene passato l'id della review vuol dire che esiste per forza
     //infatti l'id della review si ottiene da isProductReviewd che in caso di "mancata corrispondenza" col db, ritorna null
     const testRewId = 1;
@@ -240,7 +240,7 @@ describe("deleteReview", () => {
         expect.any(Function));
     });
 
-    test("database error", async () => {
+    test("errore nel database", async () => {
         
         const mockError = new Error('DB test error');
 
@@ -276,7 +276,7 @@ describe("deleteReview", () => {
     });
 });
 
-describe("deleteReviewsOfProduct", () => {
+describe("deleteReviewsOfProduct (dao)", () => {
     const testModel = "test";
 
     test("elimina tutte le review di un prodotto, ritorna true ", async() => {
@@ -295,7 +295,7 @@ describe("deleteReviewsOfProduct", () => {
         expect.any(Function));
     });
 
-    test("database error", async () => {
+    test("errore nel database", async () => {
         
         const mockError = new Error('DB test error');
 
