@@ -49,19 +49,19 @@ const validateGrouping = (value: any, { req }: any) => {
 
     if (!value) {
         // If grouping is null, model and category should also be null
-        if (model || category) {
+        if (model || category || category === "" || model === "") {
             throw new Error('If grouping is null, model and category must also be null');
         }
         return true; // Validation passed
     } else if (value === 'model') {
         // If grouping contains 'model', category should be null and model should contain a string
-        if (category || !model) {
+        if (category || category === "" || !model) {
             throw new Error('If grouping is set to model, category should be null and model should contain a string');
         }
         return true; // Validation passed
     } else if (value === 'category') {
         // If grouping contains 'category', model should be null and category should contain a string
-        if (model || !category) {
+        if (model || !category || (category !== Category.APPLIANCE && category !== Category.SMARTPHONE && category !== Category.LAPTOP)) {
             throw new Error('If grouping is set to category, model should be null and category should contain a string');
         }
         return true; // Validation passed
@@ -108,4 +108,4 @@ const validateModel = [
 ];
 
 
-export { registerProductValidator, changeProductQuantityValidator, retrieveProductsValidator, sellProductValidator, validateModel}
+export { registerProductValidator, changeProductQuantityValidator, retrieveProductsValidator, sellProductValidator, validateModel }

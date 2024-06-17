@@ -51,16 +51,17 @@ class ProductDAO {
     getAvaliableProductsByCategory(category: string): Promise<Product[]> {
         return new Promise<Product[]>((resolve, reject) => {
             try {
-                const sql = "SELECT * FROM products where category=? and quantity>0";
+                const sql = "SELECT * FROM products where category=?";
                 db.all(sql, [category], (err: Error | null, rows: any[]) => {
                     if (err) {
                         reject(err);
                         return;
                     }
                     if (rows.length == 0)
-                        reject(new EmptyProductStockForCategoryError())
+                        resolve([]);
+                    // reject(new EmptyProductStockForCategoryError())
 
-                    const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
+                    const products: Product[] = rows.filter(row => row.quantity > 0).map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
                 });
             } catch (error) {
@@ -72,7 +73,7 @@ class ProductDAO {
     getAvaliableProductsByModel(model: string): Promise<Product[]> {
         return new Promise<Product[]>((resolve, reject) => {
             try {
-                const sql = "SELECT * FROM products where model=? and quantity>0";
+                const sql = "SELECT * FROM products where model=?";
                 db.all(sql, [model], (err: Error | null, rows: any[]) => {
                     if (err) {
                         reject(err);
@@ -81,7 +82,7 @@ class ProductDAO {
                     if (rows.length == 0)
                         reject(new ProductNotFoundError())
 
-                    const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
+                    const products: Product[] = rows.filter(row => row.quantity > 0).map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
                 });
             } catch (error) {
@@ -100,7 +101,8 @@ class ProductDAO {
                         return;
                     }
                     if (rows.length == 0)
-                        reject(new EmptyProductStockError())
+                        resolve([]);
+                    //reject(new EmptyProductStockError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
@@ -120,7 +122,8 @@ class ProductDAO {
                         return;
                     }
                     if (rows.length == 0)
-                        reject(new EmptyProductStockForCategoryError())
+                        resolve([]);
+                    // reject(new EmptyProductStockForCategoryError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
@@ -162,7 +165,8 @@ class ProductDAO {
                         return;
                     }
                     if (rows.length == 0)
-                        reject(new EmptyProductStockError())
+                        resolve([]);
+                    // reject(new EmptyProductStockError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
