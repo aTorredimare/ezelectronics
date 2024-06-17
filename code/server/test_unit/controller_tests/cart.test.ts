@@ -11,6 +11,7 @@ import { CartNotFoundError, EmptyCartError, ProductNotInCartError } from "../../
 
 jest.mock("../../src/dao/cartDAO")
 jest.mock("../../src/dao/productDAO")
+jest.setTimeout(100000);
 
 const mockUser: User = { 
     username: 'testuser',

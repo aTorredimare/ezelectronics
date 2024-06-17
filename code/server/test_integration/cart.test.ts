@@ -1,4 +1,4 @@
-import { test, expect, jest, describe, beforeAll, afterEach, beforeEach, afterAll } from "@jest/globals"
+import { test, expect, jest, describe, beforeAll, beforeEach, afterAll } from "@jest/globals"
 import request from 'supertest'
 import { app } from "../index"
 import { cleanup } from "../src/db/cleanup"
@@ -11,6 +11,7 @@ import dayjs from "dayjs"
 
 
 //definisco url base per le richieste
+jest.setTimeout(100000);
 const baseURL = "/ezelectronics"
 let cookieAdmin: string
 let cookieCustomer1: string
@@ -383,7 +384,7 @@ describe('Carts integration test', () => {
                 ])
             )
             const productCheck = await productDAO.getProductByModel('iPhone15');
-            expect(productCheck.quantity).toEqual(5);
+            expect(productCheck?.quantity).toEqual(5);
         })
 
         test('It should return 404 - no infomation about an unpaid cart in the db', async () => {

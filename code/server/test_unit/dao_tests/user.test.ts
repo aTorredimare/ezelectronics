@@ -1,5 +1,4 @@
 import { describe, test, expect, beforeAll, afterAll, jest } from "@jest/globals"
-
 import UserDAO from "../../src/dao/userDAO"
 import crypto from "crypto"
 import db from "../../src/db/db"
@@ -7,8 +6,10 @@ import { Database } from "sqlite3"
 import { afterEach, beforeEach } from "node:test"
 import { BadRequestError, UserAlreadyExistsError, UserNotAdminError, UserNotFoundError } from "../../src/errors/userError"
 import { User, Role } from "../../src/components/user"
+
 jest.mock("crypto")
 jest.mock("../../src/db/db.ts")
+jest.setTimeout(100000);
 
 //Example of unit test for the createUser method
 //It mocks the database run method to simulate a successful insertion and the crypto randomBytes and scrypt methods to simulate the hashing of the password

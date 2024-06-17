@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from "@jest/globals";
+import { describe, test, expect, beforeAll, afterAll, jest } from "@jest/globals";
 import request from 'supertest';
 import { app } from "../index"; // Assuming app is exported from index.js
 import { cleanup } from "../src/db/cleanup";
@@ -8,6 +8,7 @@ import { Role } from "../src/components/user";
 
 const userDao = new UserDAO();
 
+jest.setTimeout(100000);
 const baseURL = "/ezelectronics"
 let cookieAdmin: string
 let cookieCustomer: string

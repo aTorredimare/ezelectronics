@@ -4,7 +4,7 @@ import { body, param, query, validationResult } from "express-validator"
 import ReviewController from "../controllers/reviewController"
 import Authenticator from "./auth"
 import { ProductReview } from "../components/review"
-import { addReviewValidator } from "../validators/reviewValidators"
+import { addReviewValidator, validateModelParam} from "../validators/reviewValidators"
 
 class ReviewRoutes {
     private controller: ReviewController
@@ -64,6 +64,7 @@ class ReviewRoutes {
             (req: any, res: any, next: any) => {
                 this.authenticator.isLoggedIn(req, res, next)
             },
+            validateModelParam,
             (req: any, res: any, next: any) => {
                 this.controller.getProductReviews(req.params.model)
                     .then((reviews: ProductReview[]) => res.status(200).json(reviews))
@@ -82,6 +83,7 @@ class ReviewRoutes {
             (req: any, res: any, next: any) => { //auth middleware
                 this.authenticator.isCustomer(req, res, next)
             },
+            validateModelParam,
             (req: any, res: any, next: any) => { //cancellato il validator (non serve (?))
                 this.controller.deleteReview(req.params.model, req.user)
                     .then(() => res.status(200).send())
@@ -102,6 +104,7 @@ class ReviewRoutes {
             (req: any, res: any, next: any) => {
                 this.authenticator.isAdminOrManager(req, res, next)
             },
+            validateModelParam,
             (req: any, res: any, next: any) => { 
                 this.controller.deleteReviewsOfProduct(req.params.model)
                     .then(() => res.status(200).send())

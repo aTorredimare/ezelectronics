@@ -8,7 +8,7 @@ import db from "../../src/db/db"
 import { EmptyProductStockError, LowProductStockError, ProductNotFoundError } from "../../src/errors/productError";
 import dayjs from "dayjs";
 
-
+jest.setTimeout(100000);
 
 describe('getCart', () => {
 

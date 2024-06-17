@@ -8,4 +8,11 @@ const addReviewValidator = [
         .withMessage('Model cannot be empty')
 ]
 
-export { addReviewValidator }
+const validateModelParam = (req: any, res: any, next: any) => {
+    const model = req.params.model;
+    if(typeof model === 'string' && model.trim() !== '')
+        next();
+    else
+        res.status(422).json({error: "Model cannot be empty"})
+}
+export { addReviewValidator, validateModelParam }

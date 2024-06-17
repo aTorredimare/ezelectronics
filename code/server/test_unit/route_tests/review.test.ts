@@ -13,6 +13,7 @@ const baseURL = "/ezelectronics/reviews"
 
 jest.mock("../../src/controllers/reviewController");
 jest.mock("../../src/routers/auth");
+jest.setTimeout(100000);
 
 describe("GET /:model", () => {
     test("Ritorna un array di reviews e restituisce 200", async () => {

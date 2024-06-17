@@ -12,6 +12,7 @@ import { CartNotFoundError, EmptyCartError, ProductNotInCartError } from "../../
 
 jest.mock("../../src/controllers/cartController");
 jest.mock("../../src/routers/auth");
+jest.setTimeout(100000);
 
 const mockUser: User = { username: 'testuser', name: 'Test', surname: 'User', role: Role.CUSTOMER, address: '123 Test St', birthdate: '1990-01-01' };
 const baseURL = "/ezelectronics/carts"

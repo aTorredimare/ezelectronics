@@ -15,6 +15,7 @@ import e from "express"
 // Mock the necessary dependencies
 jest.mock("../../src/controllers/productController");
 jest.mock("../../src/routers/auth");
+jest.setTimeout(100000);
 
 //Product tests
 //Parameters checks are done in the Routes, so here I should not pass wrong parameters

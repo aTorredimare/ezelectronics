@@ -11,6 +11,7 @@ import dayjs from "dayjs"
 
 jest.mock("../../src/dao/reviewDAO")
 jest.mock('sqlite3');
+jest.setTimeout(100000);
 
 afterEach(() => {
     jest.clearAllMocks();

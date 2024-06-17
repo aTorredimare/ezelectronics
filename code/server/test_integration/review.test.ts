@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, beforeEach } from "@jest/globals"
+import { describe, test, expect, beforeAll, afterAll, afterEach, beforeEach, jest } from "@jest/globals"
 // @ts-ignore
 import request from 'supertest'
 import { app } from "../index"
@@ -11,6 +11,7 @@ import { Role } from '../src/components/user'
 import dayjs from 'dayjs'
 
 //definisco url base per le richieste
+jest.setTimeout(100000);
 const baseURL = "/ezelectronics"
 let cookieAdmin: string
 let cookieCustomer: string

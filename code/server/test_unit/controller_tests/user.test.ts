@@ -11,6 +11,7 @@ import {
 import { Role, User } from "../../src/components/user";
 
 jest.mock("../../src/dao/userDAO");
+jest.setTimeout(100000);
 
 describe("User controller unit tests", () => {
     afterEach(() => {

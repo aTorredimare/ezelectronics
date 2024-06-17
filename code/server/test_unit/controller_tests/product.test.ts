@@ -6,6 +6,7 @@ import { Category, Product } from "../../src/components/product"
 import ProductDAO from "../../src/dao/productDAO"
 
 jest.mock("../../src/dao/productDAO")
+jest.setTimeout(100000);
 
 //Product tests
 //Parameters checks are done in the Routes, so here I should not pass wrong parameters

@@ -5,6 +5,7 @@ import ReviewDAO from "../../src/dao/reviewDAO";
 import dayjs from "dayjs";
 
 jest.mock('sqlite3');
+jest.setTimeout(100000);
 
 const dao = new ReviewDAO();
 

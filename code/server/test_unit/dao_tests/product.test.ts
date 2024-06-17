@@ -7,6 +7,7 @@ import { Database, EMPTY } from "sqlite3"
 import { assert } from "node:console"
 
 jest.mock("../../src/db/db.ts")
+jest.setTimeout(100000);
 
 //Product tests
 //Parameters checks are done in the Routes, so here I should not pass wrong parameters

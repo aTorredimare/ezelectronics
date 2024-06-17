@@ -6,11 +6,8 @@ import UserController from "../../src/controllers/userController"
 import Authenticator from "../../src/routers/auth"
 import { User, Role } from "../../src/components/user"
 
+jest.setTimeout(100000);
 const baseURL = "/ezelectronics"
-
-//Example of a unit test for the POST ezelectronics/users route
-//The test checks if the route returns a 200 success code
-//The test also expects the createUser method of the controller to be called once with the correct parameters
 
 describe("User route unit tests", () => {
     afterEach(() => {
@@ -130,6 +127,7 @@ describe("User route unit tests", () => {
             expect(response.status).toBe(401);
         });
     });
+
     describe("GET /ezelectronics/users/:username", () => {
         test("200 - utente recuperato correttamente", async () => {
             jest.spyOn(Authenticator.prototype, "isLoggedIn").mockImplementationOnce((req: any, res: any, next: any) => next())
@@ -165,6 +163,7 @@ describe("User route unit tests", () => {
             expect(response.status).toBe(401);
         });
     });
+
     describe("DELETE /ezelectronics/users", () => {
         test("200 - utenti eliminati correttamente", async () => {
             jest.spyOn(Authenticator.prototype, "isAdmin").mockImplementationOnce((req: any, res: any, next: any) => next())

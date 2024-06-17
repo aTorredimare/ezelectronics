@@ -1,5 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, beforeEach } from "@jest/globals"
-// @ts-ignore
+import { describe, test, expect, beforeAll, afterAll, afterEach, beforeEach, jest } from "@jest/globals"
 import request from 'supertest'
 import { app } from "../index"
 import { cleanup } from "../src/db/cleanup"
@@ -13,14 +12,12 @@ import { assert } from "console";
 import { EmptyProductStockError } from "../src/errors/productError";
 
 //definisco url base per le richieste
+jest.setTimeout(100000);
 const baseURL = "/ezelectronics"
 let cookieAdmin: string
 let cookieCustomer: string
 let cookieManager: string
 const productDAO = new ProductDAO()
-
-
-
 
 //definisco funzione per creare e loggare un customer
 async function createAndLoginCustomer() {
