@@ -59,7 +59,6 @@ class ProductDAO {
                     }
                     if (rows.length == 0)
                         resolve([]);
-                    // reject(new EmptyProductStockForCategoryError())
 
                     const products: Product[] = rows.filter(row => row.quantity > 0).map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
@@ -102,7 +101,6 @@ class ProductDAO {
                     }
                     if (rows.length == 0)
                         resolve([]);
-                    //reject(new EmptyProductStockError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
@@ -123,7 +121,6 @@ class ProductDAO {
                     }
                     if (rows.length == 0)
                         resolve([]);
-                    // reject(new EmptyProductStockForCategoryError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);
@@ -166,7 +163,6 @@ class ProductDAO {
                     }
                     if (rows.length == 0)
                         resolve([]);
-                    // reject(new EmptyProductStockError())
 
                     const products: Product[] = rows.map(row => new Product(row.selling_price, row.model, row.category, row.arrival_date, row.details, row.quantity));
                     resolve(products);

@@ -348,7 +348,7 @@ describe('removeProductFromCart', () => {
         jest.spyOn(CartDAO.prototype,'getCartId').mockResolvedValue(mockCartId);
         jest.spyOn(CartDAO.prototype,'cartIsEmpty').mockResolvedValue(true);
 
-        await expect(controller.removeProductFromCart(mockUser, mockProduct)).rejects.toThrow(EmptyCartError);
+        await expect(controller.removeProductFromCart(mockUser, mockProduct)).rejects.toThrow(CartNotFoundError);
         expect(CartDAO.prototype.productExists).toHaveBeenCalledWith(mockProduct);
         expect(CartDAO.prototype.getCartId).toHaveBeenCalledWith(mockUser.username, false);
         expect(CartDAO.prototype.cartIsEmpty).toHaveBeenCalledWith(mockCartId);

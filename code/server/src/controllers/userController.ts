@@ -140,14 +140,14 @@ class UserController {
             throw new BadRequestError();
         }
 
-        await this.dao.getUserByUsername(username); // Check if the user exists, if this fails a UserNotFoundError is thrown
+        const userToUpdate = await this.dao.getUserByUsername(username); // Check if the user exists, if this fails a UserNotFoundError is thrown
 
         if (user.role !== "Admin" && user.username !== username) {
             throw new UnauthorizedUserError();
         }
 
         try {
-            if (user.username !== username) {
+            if (userToUpdate.role === "Admin" && user.role === "Admin" && user.username !== username) {
                 throw new UnauthorizedUserError();
             }
             const updateSuccess = await this.dao.updateUser(name, surname, address, birthdate, username);

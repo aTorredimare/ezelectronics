@@ -105,7 +105,9 @@ describe("getProductReviews (controller)", () => {
     const testModel = "test";
 
     test("restituisce un vettore di reviews di un dato prodotto", async () => {
-    
+        const mockedDAO = new ReviewDAO() as jest.Mocked<ReviewDAO>;
+        mockedDAO.isProductExist.mockResolvedValue(true);
+        controller['dao'] = mockedDAO;
         const mockRow = [{
              model: "test",
              user:  "test1",

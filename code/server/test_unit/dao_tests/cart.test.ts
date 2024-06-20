@@ -94,7 +94,7 @@ describe('getCustomerCarts', () => {
             return {} as Database;
         });
 
-        await expect(cartDAO.getCostumerCarts('userTest')).rejects.toThrow(CartNotFoundError);
+        await expect(cartDAO.getCostumerCarts('userTest')).resolves.toEqual([]);
         expect(jest.spyOn(db, "all")).toHaveBeenCalledWith(expect.any(String), ['userTest'], expect.any(Function));
     });
 

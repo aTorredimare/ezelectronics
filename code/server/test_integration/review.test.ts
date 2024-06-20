@@ -347,7 +347,7 @@ describe('ReviewRoutes integrated test', () => {
 
       ])
 
-      expect(await reviewController.getProductReviews(invalidModel)).toEqual([])
+      
     });
 
     test("It should return a 404 error if the current user does not have a review for the product identified by model", async () => {

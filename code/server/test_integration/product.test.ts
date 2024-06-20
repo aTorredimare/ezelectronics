@@ -878,7 +878,7 @@ describe('ProductRoutes integrated test', () => {
         .set('Cookie', cookieManager)
       expect(response.status).toBe(200)
 
-      await expect(productDAO.getAllProducts()).rejects.toThrow(EmptyProductStockError)
+      await expect(productDAO.getAllProducts()).resolves.toEqual([]);
     })
 
     test('It should return 200 - Admin delete all products', async () => {
@@ -888,7 +888,7 @@ describe('ProductRoutes integrated test', () => {
 
       expect(response.status).toBe(200)
 
-      await expect(productDAO.getAllProducts()).rejects.toThrow(EmptyProductStockError)
+      await expect(productDAO.getAllProducts()).resolves.toEqual([]);
     })
 
     test('It should return 401 - Customer try to delete all products', async () => {

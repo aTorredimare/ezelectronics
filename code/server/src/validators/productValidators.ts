@@ -47,15 +47,15 @@ const validateGrouping = (value: any, { req }: any) => {
     const model = req.query.model;
     const category = req.query.category;
 
-    if (!value) {
+    if (value===null) {
         // If grouping is null, model and category should also be null
-        if (model || category || category === "" || model === "") {
+        if (model || category) {
             throw new Error('If grouping is null, model and category must also be null');
         }
         return true; // Validation passed
     } else if (value === 'model') {
         // If grouping contains 'model', category should be null and model should contain a string
-        if (category || category === "" || !model) {
+        if (category || !model) {
             throw new Error('If grouping is set to model, category should be null and model should contain a string');
         }
         return true; // Validation passed
@@ -108,4 +108,4 @@ const validateModel = [
 ];
 
 
-export { registerProductValidator, changeProductQuantityValidator, retrieveProductsValidator, sellProductValidator, validateModel }
+export { registerProductValidator, changeProductQuantityValidator, retrieveProductsValidator, sellProductValidator, validateModel}

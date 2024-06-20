@@ -44,6 +44,7 @@ class ReviewController {
      * @returns A Promise that resolves to an array of ProductReview objects
      */
     async getProductReviews(model: string): Promise<ProductReview[]> {
+        if(! await this.dao.isProductExist(model)) return Promise.reject(new NoReviewProductError);
         return new Promise<ProductReview[]>((resolve,reject)=>{
             try{
                 const query = " SELECT * FROM reviews WHERE model = ?" 

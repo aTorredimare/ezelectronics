@@ -142,7 +142,7 @@ class CartController {
 
             const total = await this.dao.cartIsEmpty(cartId);
             if(total)                                              //2 controllo che il carrello corrente non sia vuoto
-                return Promise.reject(new EmptyCartError());        //404 (carrello vuoto)
+                return Promise.reject(new CartNotFoundError());        //404 (carrello vuoto)
         
             const quantity = await this.dao.alreadyInCart(cartId, product);
             if(!quantity || quantity===0)                           //3 controllo se il prodotto è già nel carrello

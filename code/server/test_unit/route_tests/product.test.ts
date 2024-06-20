@@ -314,7 +314,7 @@ describe("Product route unit tests", () => {
             let grouping = null;
             let category = null;
             let model = null;
-            const response = await request(app).get(baseURL).query({ grouping: grouping, category: category, model: model });
+            const response = await request(app).get(baseURL);
             expect(response.status).toBe(200);
             expect(response.body).toEqual(testProducts);
             expect(ProductController.prototype.getProducts).toHaveBeenCalled();
@@ -556,7 +556,7 @@ describe("Product route unit tests", () => {
             let grouping = null;
             let category = null;
             let model = null;
-            const response = await request(app).get(`${baseURL}/available`).query({ grouping: grouping, category: category, model: model });
+            const response = await request(app).get(`${baseURL}/available`);
             expect(response.status).toBe(200);
             expect(response.body).toEqual(testProducts);
             expect(ProductController.prototype.getAvailableProducts).toHaveBeenCalled();

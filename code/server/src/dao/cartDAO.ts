@@ -46,8 +46,8 @@ class CartDAO {
                     if (err)
                         reject(err);
                     else {
-                        if (rows.length === 0)
-                            reject(new CartNotFoundError())
+                       if (rows.length === 0)
+                            resolve([])
                         else {
                             const carts: Cart[] = rows.map(row => new Cart(row.customer, row.paid ? true : false, row.payment_date = dayjs(row.payment_date).format("YYYY-MM-DD"), row.total, []));
                             resolve(carts);
